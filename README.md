@@ -4,7 +4,8 @@ A modern, responsive, and easy-to-use News Aggregator that fetches the latest ne
 
 🖼️ Demo / Screenshot
 
-![News Aggregator](News\ Aggregator.png)
+![News Aggregator](News%20Aggregator.png)
+
 
 ✨ Features
 
