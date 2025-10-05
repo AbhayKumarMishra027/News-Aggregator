@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global News Aggregator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <header class="hero">
+      <div class="hero-content">
+        <h1>🌐 Global News Aggregator</h1>
+        <p>Get the world’s top headlines in seconds. Tailored. Fast. Real-time.</p>
+      </div>
+    </header>
+
+    <section class="controls">
+      <input type="text" id="searchInput" placeholder="Search latest news... 🔍" />
+
+      <select id="categoryFilter">
+        <option value="">📁 All Categories</option>
+        <option value="business">💼 Business</option>
+        <option value="technology">💻 Tech</option>
+        <option value="health">🩺 Health</option>
+        <option value="science">🔬 Science</option>
+        <option value="sports">🏆 Sports</option>
+        <option value="entertainment">🎬 Entertainment</option>
+        <option value="general">📰 General</option>
+      </select>
+
+      <button id="searchBtn">Get News</button>
+    </section>
+
+    <div class="section-title">
+      <h2>🗞️ Top Headlines</h2>
+      <p>Handpicked stories from around the globe, updated every second.</p>
+    </div>
+
+    <section id="newsContainer" class="news-container">
+    </section>
+
+    <footer>
+      <p>© 2025 Global News Aggregator</p>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
