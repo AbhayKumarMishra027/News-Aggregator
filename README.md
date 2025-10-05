@@ -2,6 +2,9 @@
 
 A modern, responsive, and easy-to-use News Aggregator that fetches the latest news from multiple sources and categories in real-time. Stay updated with the world at your fingertips! 🌍
 
+
+![Home Page](News Aggregator.png)
+
 ✨ Features
 
 Browse news by categories: Technology, Sports, Entertainment, Health, Business, and more.
