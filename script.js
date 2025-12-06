@@ -15,9 +15,7 @@ window.addEventListener("load", () => {
 });
 
 searchInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    searchNews();
-  }
+  if (e.key === "Enter") searchNews();
 });
 
 categoryFilter.addEventListener("change", () => {
@@ -27,9 +25,7 @@ categoryFilter.addEventListener("change", () => {
   fetchCategoryNews(selectedCategory, 1, true);
 });
 
-searchBtn.addEventListener("click", () => {
-  searchNews();
-});
+searchBtn.addEventListener("click", () => searchNews());
 
 function debounce(func, delay = 600) {
   let timeout;
@@ -41,9 +37,7 @@ function debounce(func, delay = 600) {
 const debouncedSearch = debounce(searchNews, 600);
 
 searchInput.addEventListener("input", () => {
-  if (searchInput.value.trim() !== "") {
-    debouncedSearch();
-  }
+  if (searchInput.value.trim() !== "") debouncedSearch();
 });
 
 function searchNews() {
@@ -61,22 +55,21 @@ async function fetchCategoryNews(category, page = 1, reset = false) {
   if (isLoading) return;
   isLoading = true;
 
-  const url = `https://gnews.io/api/v4/top-headlines?category=${category}&lang=en&country=in&max=12&page=${page}&apikey=${apiKey}`;
+  const url = `https://gnews.io/api/v3/top-news?category=${category}&lang=en&max=12&page=${page}&apikey=${apiKey}`;
   if (reset) showMessage(`⏳ Loading ${capitalize(category)} news...`);
 
   try {
     const res = await fetch(url);
     const data = await res.json();
     if (!data.articles?.length) {
-      if (reset) showMessage(`🚫 No ${category} articles found.`, "gray");
+      if (reset) showMessage(`🚫 No ${category} news found.`, "gray");
       isLoading = false;
       return;
     }
     renderNews(data.articles, reset);
     currentPage = page;
-  } catch (error) {
-    showMessage(`❌ Error fetching ${category} news.`, "red");
-    console.error(error);
+  } catch {
+    showMessage(`❌ Error fetching news.`, "red");
   } finally {
     isLoading = false;
   }
@@ -86,22 +79,21 @@ async function fetchSearchNews(query, page = 1, reset = false) {
   if (isLoading) return;
   isLoading = true;
 
-  const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&country=in&max=12&page=${page}&apikey=${apiKey}`;
+  const url = `https://gnews.io/api/v3/search?q=${encodeURIComponent(query)}&lang=en&max=12&page=${page}&apikey=${apiKey}`;
   if (reset) showMessage(`🔍 Searching for "${query}"...`);
 
   try {
     const res = await fetch(url);
     const data = await res.json();
     if (!data.articles?.length) {
-      if (reset) showMessage(`😕 No results found for "${query}".`, "gray");
+      if (reset) showMessage(`😕 No results for "${query}".`, "gray");
       isLoading = false;
       return;
     }
     renderNews(data.articles, reset);
     currentPage = page;
-  } catch (error) {
+  } catch {
     showMessage(`❌ Error during search.`, "red");
-    console.error(error);
   } finally {
     isLoading = false;
   }
@@ -117,12 +109,12 @@ function renderNews(articles, reset = false) {
 
 function createNewsCard(article) {
   const { title, description, url, image, source, publishedAt } = article;
+
   const card = document.createElement("div");
   card.className = "news-card";
 
   const img = document.createElement("img");
   img.src = image || "https://via.placeholder.com/400x200?text=No+Image";
-  img.alt = title ? `Image for: ${title}` : "News image";
   img.className = "news-img";
 
   const content = document.createElement("div");
@@ -144,7 +136,6 @@ function createNewsCard(article) {
   const link = document.createElement("a");
   link.href = url;
   link.target = "_blank";
-  link.rel = "noopener noreferrer";
   link.textContent = "Read Full Article →";
 
   content.append(headline, desc, meta, link);
@@ -167,18 +158,16 @@ window.addEventListener("scroll", () => {
 function showMessage(msg, color = "#333") {
   newsContainer.innerHTML = `<p style="text-align:center; color:${color};">${msg}</p>`;
 }
+
 function truncate(str, n) {
   return str?.length > n ? str.slice(0, n - 1) + "..." : str;
 }
+
 function formatDate(dateString) {
-  if (!dateString) return "Unknown";
   const date = new Date(dateString);
-  return date.toLocaleDateString(undefined, {
-    day: "numeric",
-    month: "short",
-    year: "numeric"
-  });
+  return date.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
 }
+
 function capitalize(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
