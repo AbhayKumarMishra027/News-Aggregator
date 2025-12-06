@@ -55,7 +55,13 @@ async function fetchCategoryNews(category, page = 1, reset = false) {
   if (isLoading) return;
   isLoading = true;
 
-  const url = `https://gnews.io/api/v3/top-news?category=${category}&lang=en&max=12&page=${page}&apikey=${apiKey}`;
+  let url;
+  if (category === "general") {
+    url = `https://gnews.io/api/v3/top-news?lang=en&max=12&page=${page}&apikey=${apiKey}`;
+  } else {
+    url = `https://gnews.io/api/v3/top-news?category=${category}&lang=en&max=12&page=${page}&apikey=${apiKey}`;
+  }
+
   if (reset) showMessage(`⏳ Loading ${capitalize(category)} news...`);
 
   try {
@@ -165,7 +171,11 @@ function truncate(str, n) {
 
 function formatDate(dateString) {
   const date = new Date(dateString);
-  return date.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+  return date.toLocaleDateString(undefined, {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
 }
 
 function capitalize(word) {
